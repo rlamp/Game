@@ -79,6 +79,118 @@ function collisionDetetcion() {
     }
 }
 
+function loadMap() {
+	
+	var loader= new THREE.JSONLoader();
+	
+	//HALLWAY 1
+	/*
+	loader.load("./res/models/hall1.json", function(geometry, materials){
+		
+		console.log(geometry, materials);
+		
+		//var material= new THREE.MeshFaceMaterial(materials);
+		var material= new THREE.MeshPhongMaterial({color: 0xff3300});
+		//material.shading= THREE.FlatShading;
+		var mesh= new THREE.Mesh(geometry, material);
+		
+		//mesh.translateY(1.8);
+	
+		scene.add(mesh);
+	
+	});
+	*/
+	loader.load("./res/models/hall1_ground.json", function(geometry, materials){
+		
+		
+		var material= new THREE.MeshLambertMaterial({color: 0x7d7d7d});
+		
+		var mesh= new THREE.Mesh(geometry, material);
+		
+	
+		scene.add(mesh);
+	
+	});
+	
+	loader.load("./res/models/hall1_walls.json", function(geometry, materials){
+		
+		
+		var material= new THREE.MeshLambertMaterial({color: 0xbebebe});
+
+		var mesh= new THREE.Mesh(geometry, material);
+		
+	
+		scene.add(mesh);
+	
+	});
+	
+	//HALLWAY 2
+	loader.load("./res/models/hall2.json", function(geometry, materials){
+		
+		console.log(geometry, materials);
+		
+		//var material= new THREE.MeshFaceMaterial(materials);
+		var material= new THREE.MeshPhongMaterial({color: 0xff3300});
+		//material.shading= THREE.FlatShading;
+		var mesh= new THREE.Mesh(geometry, material);
+		
+		//mesh.translateY(1.8);
+	
+		scene.add(mesh);
+	
+	});
+	
+	//HALLWAY 3
+	loader.load("./res/models/hall3.json", function(geometry, materials){
+		
+		console.log(geometry, materials);
+		
+		//var material= new THREE.MeshFaceMaterial(materials);
+		var material= new THREE.MeshPhongMaterial({color: 0xff3300});
+		//material.shading= THREE.FlatShading;
+		var mesh= new THREE.Mesh(geometry, material);
+		
+		//mesh.translateY(1.8);
+	
+		scene.add(mesh);
+	
+	});
+	
+	//HALLWAY 4
+	loader.load("./res/models/hall4.json", function(geometry, materials){
+		
+		console.log(geometry, materials);
+		
+		//var material= new THREE.MeshFaceMaterial(materials);
+		var material= new THREE.MeshPhongMaterial({color: 0xff3300});
+		//material.shading= THREE.FlatShading;
+		var mesh= new THREE.Mesh(geometry, material);
+		
+		//mesh.translateY(1.8);
+	
+		scene.add(mesh);
+	
+	});
+	
+	loader.load("./res/models/round_chamber.json", function(geometry, materials){
+		
+		console.log(geometry, materials);
+		
+		//var material= new THREE.MeshFaceMaterial(materials);
+		var material= new THREE.MeshPhongMaterial({color: 0xff3322});
+		//material.shading= THREE.FlatShading;
+		var mesh= new THREE.Mesh(geometry, material);
+		
+		//mesh.translateZ(-24);
+	
+		scene.add(mesh);
+		
+	
+	});
+
+	//renderFrame();
+}
+
 function move() {
     var time = performance.now();
     var delta = ( time - prevTime ) / 1000;
@@ -159,9 +271,21 @@ function init() {
 
     var onError = function ( xhr ) {
     };
+	
+	//gridline
+	var size = 100;
+	var step = 1;
+	var gridHelper = new THREE.GridHelper(size, step);
+	scene.add(gridHelper);
+	
+	//axis helper
+	var axisHelper= new THREE.AxisHelper(100);
+	scene.add(axisHelper);
+	
+	//Load map
+	loadMap();
 
-    // model
-
+	/*
     var loader = new THREE.OBJLoader();
     loader.load( './res/level.obj', function ( object ) {
 
@@ -172,7 +296,7 @@ function init() {
 
         scene.add( object );
     }, onProgress, onError );
-
+	*/
 
     renderer = new THREE.WebGLRenderer();
     renderer.setClearColor( 0xffffff );
@@ -182,7 +306,6 @@ function init() {
 
     document.addEventListener( 'keydown', function(event) {pressedKeys[event.keyCode] = true;}, false );
     document.addEventListener( 'keyup', function(event) {pressedKeys[event.keyCode] = false;}, false );
-    //
 
     window.addEventListener( 'resize', onWindowResize, false );
 
