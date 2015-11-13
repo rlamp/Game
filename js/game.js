@@ -50,10 +50,14 @@ function onWindowResize() {
 
 }
 
+function degToRad(deg) {
+    return deg * Math.PI / 180;
+}
+
 function collisionDetetcion() {
     for(var i = 0; i < rays.length; i++) {
         var ray = rays[i].clone();
-        ray = ray.applyMatrix4( player.matrixWorld).sub( player.position ).normalize();
+        ray.applyMatrix4( player.matrixWorld).sub( player.position ).normalize();
         raycaster.set(player.position, ray);
 
         var intersections = raycaster.intersectObjects( objects, true);
