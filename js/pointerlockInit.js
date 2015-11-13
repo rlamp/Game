@@ -1,5 +1,5 @@
 var blocker = document.getElementById( 'blocker' );
-var instructions = document.getElementById( 'instructions' );
+var menu = document.getElementById("menu");
 
 // http://www.html5rocks.com/en/tutorials/pointerlock/intro/
 
@@ -21,13 +21,14 @@ if ( havePointerLock ) {
 
         } else {
 
+            controlsEnabled = false;
             controls.enabled = false;
 
             blocker.style.display = '-webkit-box';
             blocker.style.display = '-moz-box';
             blocker.style.display = 'box';
 
-            instructions.style.display = '';
+            menu.style.display = '';
 
         }
 
@@ -35,7 +36,7 @@ if ( havePointerLock ) {
 
     var pointerlockerror = function ( event ) {
 
-        instructions.style.display = '';
+        menu.style.display = '';
 
     };
 
@@ -48,9 +49,20 @@ if ( havePointerLock ) {
     document.addEventListener( 'mozpointerlockerror', pointerlockerror, false );
     document.addEventListener( 'webkitpointerlockerror', pointerlockerror, false );
 
-    instructions.addEventListener( 'click', function ( event ) {
+    document.getElementById("instructions").addEventListener("click", function() {
+        var div = document.getElementById("instructionsText");
+        div.style.display = div.style.display == "none" ? "block" : "none";
+    });
 
-        instructions.style.display = 'none';
+    document.getElementById("about").addEventListener("click", function() {
+        var div = document.getElementById("aboutText");
+        div.style.display = div.style.display == "none" ? "block" : "none";
+    });
+
+
+    document.getElementById("play").addEventListener( 'click', function ( event ) {
+
+        menu.style.display = 'none';
 
         // Ask the browser to lock the pointer
         element.requestPointerLock = element.requestPointerLock || element.mozRequestPointerLock || element.webkitRequestPointerLock;
@@ -86,6 +98,6 @@ if ( havePointerLock ) {
 
 } else {
 
-    instructions.innerHTML = 'Your browser doesn\'t seem to support Pointer Lock API';
+    menu.innerHTML = 'Your browser doesn\'t seem to support Pointer Lock API';
 
 }

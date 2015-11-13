@@ -1,9 +1,10 @@
 var camera, scene, renderer;
-var geometry, material, mesh;
 var controls;
+
 var player;
 
 var objects = [];
+var enemies = [];
 
 var raycaster;
 var rays = [
@@ -51,17 +52,14 @@ function onWindowResize() {
 
 function collisionDetetcion() {
     for(var i = 0; i < rays.length; i++) {
-        var ray = new THREE.Vector3().copy(rays[i]);
+        var ray = rays[i].clone();
         ray = ray.applyMatrix4( player.matrixWorld).sub( player.position ).normalize();
         raycaster.set(player.position, ray);
-        if(i < 4) {
-            raycaster.ray.origin.add(rays[i]);
-        }
 
-        var intersections = raycaster.intersectObjects( objects);
+        var intersections = raycaster.intersectObjects( objects, true);
         var hit = intersections.length > 0;
 
-        if(hit){
+        if(hit && intersections[0].distance <= 0.5){
             switch (i) {
                 case 0:
                     moveForward = false; velocity.x = 0; break;
@@ -79,10 +77,11 @@ function collisionDetetcion() {
                     moveBackward = false; moveLeft = false; velocity.x = 0; velocity.z = 0; break;
                 case 7:
                     moveBackward = false; moveRight = false; velocity.x = 0; velocity.z = 0; break;
-            }
+        	}
         }
     }
 }
+
 
 function move() {
     var time = performance.now();
@@ -107,18 +106,22 @@ function move() {
     prevTime = time;
 }
 
+function moveEnemies() {
+	for (var i = 0; i < enemies.length; i++) {
+		enemies[i].move();
+	};
+}
+
 function animate() {
-
     requestAnimationFrame( animate );
-
 
     if ( controlsEnabled ) {
         handleKeys();
         move();
+        moveEnemies();
     }
 
     renderer.render( scene, camera );
-
 }
 
 function init() {
@@ -126,40 +129,17 @@ function init() {
     camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.01, 1000 );
 
     scene = new THREE.Scene();
-    scene.fog = new THREE.Fog( 0xffffff, 0, 750 );
-
-    // var light = new THREE.HemisphereLight( 0xeeeeff, 0x777788, 0.75 );
-    // light.position.set( 0.5, 1, 0.75 );
-    // scene.add( light );
 
     controls = new THREE.PointerLockControls( camera );
     player = controls.getObject();
     scene.add( player );
-    player.position = new THREE.Vector3(0,2,0);
 
-    raycaster = new THREE.Raycaster( new THREE.Vector3(), new THREE.Vector3(), 0, 0.5 );
+    raycaster = new THREE.Raycaster( new THREE.Vector3(), new THREE.Vector3(), 0, 3 );
 
-    //pointLight
-    var pointLight= new THREE.PointLight(0xffffff);
-    pointLight.position.set(0, 2, 0);
-    scene.add(pointLight);
-    
-    var pointLight2= new THREE.PointLight(0xffffff);
-    pointLight.position.set(0, 2, -35);
-    scene.add(pointLight2);
-    
-    //gridline
-    var size = 100;
-    var step = 1;
-    var gridHelper = new THREE.GridHelper(size, step);
-    scene.add(gridHelper);
-    
-    //axis helper
-    var axisHelper= new THREE.AxisHelper(100);
-    scene.add(axisHelper);
 
-    drawLevel();
-
+    loadMap();
+    enemies.push(new Enemy(new THREE.Vector3(3,2,0)));
+    enemies.push(new Enemy(new THREE.Vector3(-3,2,0)));
 
     renderer = new THREE.WebGLRenderer();
     renderer.setClearColor( 0xffffff );
@@ -173,88 +153,4 @@ function init() {
 
     window.addEventListener( 'resize', onWindowResize, false );
 
-}
-
-function drawLevel() {
-
-    var loader= new THREE.JSONLoader();
-    
-    //HALLWAY 1
-    loader.load("./models/hall1.json", function(geometry, materials){
-        
-        console.log(geometry, materials);
-        
-        //var material= new THREE.MeshFaceMaterial(materials);
-        var material= new THREE.MeshPhongMaterial({color: 0xff3300});
-        //material.shading= THREE.FlatShading;
-        var mesh= new THREE.Mesh(geometry, material);
-        
-        //mesh.translateY(1.8);
-        objects.push(mesh);
-        scene.add(mesh);
-    
-    });
-    
-    //HALLWAY 2
-    loader.load("./models/hall2.json", function(geometry, materials){
-        
-        console.log(geometry, materials);
-        
-        //var material= new THREE.MeshFaceMaterial(materials);
-        var material= new THREE.MeshPhongMaterial({color: 0xff3300});
-        //material.shading= THREE.FlatShading;
-        var mesh= new THREE.Mesh(geometry, material);
-        
-        //mesh.translateY(1.8);
-        objects.push(mesh);
-        scene.add(mesh);
-    
-    });
-    
-    //HALLWAY 3
-    loader.load("./models/hall3.json", function(geometry, materials){
-        
-        console.log(geometry, materials);
-        
-        //var material= new THREE.MeshFaceMaterial(materials);
-        var material= new THREE.MeshPhongMaterial({color: 0xff3300});
-        //material.shading= THREE.FlatShading;
-        var mesh= new THREE.Mesh(geometry, material);
-        
-        //mesh.translateY(1.8);
-        objects.push(mesh);
-        scene.add(mesh);
-    
-    });
-    
-    //HALLWAY 4
-    loader.load("./models/hall4.json", function(geometry, materials){
-        
-        console.log(geometry, materials);
-        
-        //var material= new THREE.MeshFaceMaterial(materials);
-        var material= new THREE.MeshPhongMaterial({color: 0xff3300});
-        //material.shading= THREE.FlatShading;
-        var mesh= new THREE.Mesh(geometry, material);
-        
-        //mesh.translateY(1.8);
-        objects.push(mesh);
-        scene.add(mesh);
-    
-    });
-    
-    loader.load("./models/round_chamber.json", function(geometry, materials){
-        
-        console.log(geometry, materials);
-        
-        //var material= new THREE.MeshFaceMaterial(materials);
-        var material= new THREE.MeshPhongMaterial({color: 0xff3322});
-        //material.shading= THREE.FlatShading;
-        var mesh= new THREE.Mesh(geometry, material);
-        
-        //mesh.translateZ(-24);
-        objects.push(mesh);
-        scene.add(mesh);
-    });
-    
 }
