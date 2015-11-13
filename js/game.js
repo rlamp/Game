@@ -79,117 +79,11 @@ function collisionDetetcion() {
     }
 }
 
-function loadMap() {
-	
-	var loader= new THREE.JSONLoader();
-	
-	//HALLWAY 1
-	/*
-	loader.load("./res/models/hall1.json", function(geometry, materials){
-		
-		console.log(geometry, materials);
-		
-		//var material= new THREE.MeshFaceMaterial(materials);
-		var material= new THREE.MeshPhongMaterial({color: 0xff3300});
-		//material.shading= THREE.FlatShading;
-		var mesh= new THREE.Mesh(geometry, material);
-		
-		//mesh.translateY(1.8);
-	
-		scene.add(mesh);
-	
-	});
-	*/
-	loader.load("./res/models/hall1_ground.json", function(geometry, materials){
-		
-		
-		var material= new THREE.MeshLambertMaterial({color: 0x7d7d7d});
-		
-		var mesh= new THREE.Mesh(geometry, material);
-		
-	
-		scene.add(mesh);
-	
-	});
-	
-	loader.load("./res/models/hall1_walls.json", function(geometry, materials){
-		
-		
-		var material= new THREE.MeshLambertMaterial({color: 0xbebebe});
 
-		var mesh= new THREE.Mesh(geometry, material);
-		
-	
-		scene.add(mesh);
-	
-	});
-	
-	//HALLWAY 2
-	loader.load("./res/models/hall2.json", function(geometry, materials){
-		
-		console.log(geometry, materials);
-		
-		//var material= new THREE.MeshFaceMaterial(materials);
-		var material= new THREE.MeshPhongMaterial({color: 0xff3300});
-		//material.shading= THREE.FlatShading;
-		var mesh= new THREE.Mesh(geometry, material);
-		
-		//mesh.translateY(1.8);
-	
-		scene.add(mesh);
-	
-	});
-	
-	//HALLWAY 3
-	loader.load("./res/models/hall3.json", function(geometry, materials){
-		
-		console.log(geometry, materials);
-		
-		//var material= new THREE.MeshFaceMaterial(materials);
-		var material= new THREE.MeshPhongMaterial({color: 0xff3300});
-		//material.shading= THREE.FlatShading;
-		var mesh= new THREE.Mesh(geometry, material);
-		
-		//mesh.translateY(1.8);
-	
-		scene.add(mesh);
-	
-	});
-	
-	//HALLWAY 4
-	loader.load("./res/models/hall4.json", function(geometry, materials){
-		
-		console.log(geometry, materials);
-		
-		//var material= new THREE.MeshFaceMaterial(materials);
-		var material= new THREE.MeshPhongMaterial({color: 0xff3300});
-		//material.shading= THREE.FlatShading;
-		var mesh= new THREE.Mesh(geometry, material);
-		
-		//mesh.translateY(1.8);
-	
-		scene.add(mesh);
-	
-	});
-	
-	loader.load("./res/models/round_chamber.json", function(geometry, materials){
-		
-		console.log(geometry, materials);
-		
-		//var material= new THREE.MeshFaceMaterial(materials);
-		var material= new THREE.MeshPhongMaterial({color: 0xff3322});
-		//material.shading= THREE.FlatShading;
-		var mesh= new THREE.Mesh(geometry, material);
-		
-		//mesh.translateZ(-24);
-	
-		scene.add(mesh);
-		
-	
-	});
+//Prenesel v datoteko mapInit.js
+loadMap();
 
-	//renderFrame();
-}
+
 
 function move() {
     var time = performance.now();
@@ -218,10 +112,10 @@ function move() {
     player.translateY( velocity.y * delta );
     player.translateZ( velocity.z * delta );
 
-    if ( player.position.y < 10 ) {
+    if ( player.position.y < 1.5 ) {
         velocity.y = 0;
 
-        player.position.y = 10;
+        player.position.y = 1.5;
 
         canJump = true;
 
