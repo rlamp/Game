@@ -15,10 +15,19 @@ var enemyVerticesCD = [];
 	enemyVerticesCD.push(new THREE.Vector3(0,1,1));
 	enemyVerticesCD.push(new THREE.Vector3(0,0,0));
 
+var enemySpawnLocations = [
+	new THREE.Vector3(0,2,0),
+	new THREE.Vector3(0,2,28),
+	new THREE.Vector3(0,2,-45),
+	new THREE.Vector3(0,2,-65),
+	new THREE.Vector3(55,2,0),
+	new THREE.Vector3(-21,2,0)
+];
+
 var Enemy = function(pos) {
 	var squareMesh = new THREE.Mesh(enemyGeometry, enemyMaterial);
 	// squareMesh.scale.set(sc.x, sc.y, sc.z);
-	squareMesh.position.set(pos.x, pos.y, pos.z); 
+	squareMesh.position.set(pos.x, 2, pos.z); 
 
 	scene.add(squareMesh);
 	enemiesMeshes.push(squareMesh);

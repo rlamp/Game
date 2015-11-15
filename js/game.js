@@ -2,20 +2,11 @@ var camera, scene, renderer;
 var controls;
 
 var player;
-var playerHealth = 100;
+var playerHealth = 10;
 
 var objects = [];
 var enemies = [];
 var enemiesMeshes = [];
-
-var spawnLocations = [
-	new THREE.Vector3(0,2,0),
-	new THREE.Vector3(0,2,28),
-	new THREE.Vector3(0,2,-45),
-	new THREE.Vector3(0,2,-65),
-	new THREE.Vector3(55,2,0),
-	new THREE.Vector3(-21,2,0)
-];
 
 var raycaster;
 var rays = [
@@ -44,6 +35,7 @@ var pressedKeys = {};
 
 init();
 animate();
+
 
 function handleKeys()  {
     moveForward = pressedKeys[38] || pressedKeys[87];
@@ -130,6 +122,7 @@ function animate() {
         handleKeys();
         move();
         moveEnemies();
+        healthBoxHandle();
 
         document.getElementById('hud').style.display = 'block';
         if(playerHealth < 20) {
@@ -168,13 +161,15 @@ function init() {
     document.addEventListener( 'keydown', function(event) {pressedKeys[event.keyCode] = true;}, false );
     document.addEventListener( 'keyup', function(event) {pressedKeys[event.keyCode] = false;}, false );
     
+    // document.addEventListener('click', function() {console.log(player.position);}, false);
+
     //
-    window.setInterval(function() {
-    	if(controlsEnabled) {
-    		var idx = Math.floor(Math.random()*spawnLocations.length);
-    		enemies.push(new Enemy(spawnLocations[idx]));
-    	}
-    }, 1000);
+    // window.setInterval(function() {
+    // 	if(controlsEnabled) {
+    // 		var idx = Math.floor(Math.random()*enemySpawnLocations.length);
+    // 		enemies.push(new Enemy(enemySpawnLocations[idx]));
+    // 	}
+    // }, 1000);
     
     window.addEventListener( 'resize', onWindowResize, false );
 }
