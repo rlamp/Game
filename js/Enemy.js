@@ -6,10 +6,7 @@ var enemyGeometry = new THREE.Geometry();
 	enemyGeometry.faces.push(new THREE.Face3(0, 1, 2)); 
 	enemyGeometry.faces.push(new THREE.Face3(0, 2, 3));
 
-var enemyMaterial = new THREE.MeshBasicMaterial({ 
- color:0xFFFFFF, 
- side:THREE.DoubleSide 
-});
+var enemyMaterial;
 
 var enemyVerticesCD = [];
 	enemyVerticesCD.push(enemyGeometry.vertices[1]);
@@ -24,6 +21,7 @@ var Enemy = function(pos) {
 	squareMesh.position.set(pos.x, pos.y, pos.z); 
 
 	scene.add(squareMesh);
+	enemiesMeshes.push(squareMesh);
 
 	this.mesh = squareMesh;
 }
@@ -34,43 +32,72 @@ var directions = [
 	new THREE.Vector3(-1,0,0),
 	new THREE.Vector3(1,0,0)
 ];
-Enemy.prototype.move = function() {
+
+Enemy.prototype.checkPos = function(pos) {
 	var canMove = {0:true, 1:true, 2:true, 3:true};
 
 	for(var j = 0; j < enemyVerticesCD.length; j++){
-		var origin = this.mesh.position.clone().add(enemyVerticesCD[j]);
+		var origin = pos.clone().add(enemyVerticesCD[j]);
 		
 		for(var i = 0; i < directions.length; i++){
 	        raycaster.set(origin, directions[i]);
 
-	        var intersections = raycaster.intersectObjects( objects, true );
-	        var hit = intersections.length > 0;
+	        var intersections = raycaster.intersectObjects( objects.concat(enemiesMeshes) );
 
-	        if(hit && intersections[0].distance <= 0.5){
+	        var idx = -1;
+	        for(var x = 0; x < intersections.length; x++){
+	        	if(intersections[x].object !== this.mesh){
+	        		idx = x;
+	        		break;
+	        	}
+	        }
+
+	        if(idx != -1 && intersections[idx].distance <= 0.5){
 	        	canMove[i] = false;
         	}
 		}
 	}
 
-	// depth first, stopnja 1
-	var best = -1;
-	var l = null;
-	for(var i = 0; i < directions.length; i++){
-		if(canMove[i]) {
-			if(l != null){
-				var d = this.mesh.position.clone().add(directions[i]).distanceToSquared(player.position);
-				if(d < l){
-					best = i;
-					l = d;
-				}
-			}
-			else {
-				l = this.mesh.position.clone().add(directions[i]).distanceToSquared(player.position);
-				best = i;
-			}
-		}
+	return canMove;
+}
+
+Enemy.prototype.move = function() {
+	var d = this.mesh.position.distanceToSquared(player.position);
+	if(d >= 1500) return;
+	if(d < 2.5) {
+		document.getElementById('hurt').style.display = '';
+		window.setTimeout(function() {document.getElementById('hurt').style.display = 'none';}, 50);
+
+		playerHealth -= 10;
+		var idx = enemiesMeshes.indexOf(this.mesh);
+		enemiesMeshes.splice(idx,1);
+		idx = enemies.indexOf(this);
+		enemies.splice(idx,1);
+
+		scene.remove(this.mesh);
+
+		delete this;
+		return;
 	}
 
-	this.mesh.position.add(directions[best].clone().multiplyScalar(0.2));
+	var canMove = this.checkPos(this.mesh.position);
+
+	var bestLength = Infinity;
+	var bestMove = -1;
+	for (var i = 0; i < directions.length; i++) {
+		if(canMove[i]){
+			var moveTo = this.mesh.position.clone().add(directions[i].clone().multiplyScalar(0.2));
+
+			var d = moveTo.distanceToSquared(player.position);
+			if(d < bestLength) {
+				bestMove = i;
+				bestLength = d;
+			}
+		}
+	};
+
+	if(bestMove != -1) {
+		this.mesh.position.add(directions[bestMove].clone().multiplyScalar(0.2));
+	}
 	this.mesh.lookAt(player.position);
 };

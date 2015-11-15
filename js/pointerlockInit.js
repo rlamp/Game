@@ -18,6 +18,7 @@ if ( havePointerLock ) {
             controls.enabled = true;
 
             blocker.style.display = 'none';
+            document.getElementById('hud').style.display = '';
 
         } else {
 
@@ -28,7 +29,15 @@ if ( havePointerLock ) {
             blocker.style.display = '-moz-box';
             blocker.style.display = 'box';
 
-            menu.style.display = '';
+            document.getElementById('hud').style.display = 'none';
+
+            if(gameover) {
+                document.getElementById('gameover').style.display = '';
+                document.getElementById('reload').addEventListener('click', function() {window.location.reload(false);}, false)
+            }
+            else {
+                menu.style.display = '';
+            }
 
         }
 

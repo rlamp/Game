@@ -7,39 +7,44 @@
 		<link rel="stylesheet" type="text/css" href="./css/style.css">
 	</head>
 	<body>
-		
-	<div id="blocker">
-		<div id="menu">
-			<div id="play">
-				<span style="font-size:40px">PLAY</span>
+		<div id="blocker">
+			<div id="menu">
+				<div id="play">
+					<span style="font-size:40px">PLAY</span>
+				</div>
+				<br><br>
+				<div id="instructions">
+					<span style="font-size:40px">INSTRUCTIONS</span>
+				</div>
+				<br>
+				<div id="instructionsText" style="display:none">
+					[W, A, S, D] = Move, [MOUSE] = Look around
+				</div>
+				<br><br>
+				<div id="about">
+					<span style="font-size:40px">ABOUT</span>
+				</div>
+				<br>
+				<div id="aboutText" style="display:none">
+					CYBEARTH - 2084<br>
+					@FRI, 2015
+				</div>
 			</div>
-			<br><br>
-			<div id="instructions">
-				<span style="font-size:40px">INSTRUCTIONS</span>
-			</div>
-			<br>
-			<div id="instructionsText" style="display:none">
-				[W, A, S, D] = Move, [MOUSE] = Look around
-			</div>
-			<br><br>
-			<div id="about">
-				<span style="font-size:40px">ABOUT</span>
-			</div>
-			<br>
-			<div id="aboutText" style="display:none">
-				CYBEARTH - 2084<br>
-				@FRI, 2015
+			<div id="gameover" style="display:none">
+				<p>GAME OVER</p> <br/>
+				<div id="reload">RESTART</div>
 			</div>
 		</div>
-	</div>
-
-	<script src="./js/three.min.js"></script>
-	<script src="./js/GridHelper.js"></script>
-	<script src="./js/AxisHelper.js"></script>
-	<script src="./js/PointerLockControls.js"></script>
-	<script src="./js/pointerlockInit.js"></script>
-	<script src="./js/Enemy.js"></script>
-	<script src="./js/mapInit.js"></script>	
-	<script src="./js/game.js"></script>
+		<div id="hud"></div>
+		<div id="hurt" style="display:none;"></div>
+		</div>
+		<script src="./js/three.min.js"></script>
+		<script src="./js/GridHelper.js"></script>
+		<script src="./js/AxisHelper.js"></script>
+		<script src="./js/PointerLockControls.js"></script>
+		<script src="./js/pointerlockInit.js"></script>
+		<script src="./js/Enemy.js"></script>
+		<script src="./js/mapInit.js"></script>	
+		<script src="./js/game.js"></script>
 	</body>
 </html>

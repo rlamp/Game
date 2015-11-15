@@ -334,4 +334,9 @@ function loadMap() {
 	
 	});
 	
+	//enemies
+	var loader = new THREE.TextureLoader();
+	loader.load("./res/textures/ad.jpg", function(texture) {
+		enemyMaterial = new THREE.MeshBasicMaterial( { map: texture, side:THREE.DoubleSide } );
+	});
 }

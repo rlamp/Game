@@ -2,9 +2,20 @@ var camera, scene, renderer;
 var controls;
 
 var player;
+var playerHealth = 100;
 
 var objects = [];
 var enemies = [];
+var enemiesMeshes = [];
+
+var spawnLocations = [
+	new THREE.Vector3(0,2,0),
+	new THREE.Vector3(0,2,28),
+	new THREE.Vector3(0,2,-45),
+	new THREE.Vector3(0,2,-65),
+	new THREE.Vector3(55,2,0),
+	new THREE.Vector3(-21,2,0)
+];
 
 var raycaster;
 var rays = [
@@ -48,10 +59,6 @@ function onWindowResize() {
 
     renderer.setSize( window.innerWidth, window.innerHeight );
 
-}
-
-function degToRad(deg) {
-    return deg * Math.PI / 180;
 }
 
 function collisionDetetcion() {
@@ -123,6 +130,15 @@ function animate() {
         handleKeys();
         move();
         moveEnemies();
+
+        document.getElementById('hud').style.display = 'block';
+        if(playerHealth < 20) {
+        	document.getElementById('hud').style.backgroundColor = 'red';
+        }
+        document.getElementById('hud').innerHTML = "HEALTH: " + playerHealth;
+        if(playerHealth <= 0) {
+            gameOver();
+        }
     }
 
     renderer.render( scene, camera );
@@ -142,8 +158,6 @@ function init() {
 
 
     loadMap();
-    enemies.push(new Enemy(new THREE.Vector3(3,2,0)));
-    enemies.push(new Enemy(new THREE.Vector3(-3,2,0)));
 
     renderer = new THREE.WebGLRenderer();
     renderer.setClearColor( 0xffffff );
@@ -153,8 +167,23 @@ function init() {
 
     document.addEventListener( 'keydown', function(event) {pressedKeys[event.keyCode] = true;}, false );
     document.addEventListener( 'keyup', function(event) {pressedKeys[event.keyCode] = false;}, false );
+    
     //
-
+    window.setInterval(function() {
+    	if(controlsEnabled) {
+    		var idx = Math.floor(Math.random()*spawnLocations.length);
+    		enemies.push(new Enemy(spawnLocations[idx]));
+    	}
+    }, 1000);
+    
     window.addEventListener( 'resize', onWindowResize, false );
+}
 
+var gameover = false;
+function gameOver() {
+    gameover = true;
+    document.exitPointerLock = document.exitPointerLock ||
+       document.mozExitPointerLock ||
+       document.webkitExitPointerLock;
+    document.exitPointerLock();
 }
