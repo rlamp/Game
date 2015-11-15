@@ -24,14 +24,21 @@ var canJump = false;
 var isOnObject = false;
 
 var prevTime = performance.now();
+var prevTimeShoot= performance.now();
 var velocity = new THREE.Vector3();
 
 var pressedKeys = {};
+
+//SHOOTING STUFF
+var clock;
+var bulletTime= 1;
+
 
 init();
 animate();
 
 function handleKeys()  {
+	
     moveForward = pressedKeys[38] || pressedKeys[87];
     moveBackward = pressedKeys[40] || pressedKeys[83];
     moveLeft = pressedKeys[37] || pressedKeys[65];
@@ -124,23 +131,87 @@ function move() {
     prevTime = time;
 }
 
+
+
+
+//SHOOTING PART	------------------------------------------------------------------------------------------------------------
+var bullets= [];
+
+var sphereMAT= new THREE.MeshBasicMaterial({color: 0xff0000});
+var sphereGEO= new THREE.SphereGeometry(0.2, 0.2, 0.2);
+
+function shoot() {
+	
+	var bulletMesh= new THREE.Mesh(sphereGEO, sphereMAT);												//nrdi nov bullet
+	bulletMesh.position.set(player.position.x, player.position.y * 0.8, player.position.z);				//ga postavi "pred/v" kamero
+
+	var bulletVector= new THREE.Vector3(0,0,-1).applyMatrix4( player.matrixWorld ).sub( player.position ).normalize();					//vektor letenja bulleta
+	var timer= new THREE.Clock();
+	timer.start();
+	
+	var bullet= {mesh: bulletMesh, vector: bulletVector, timer: timer};											//nrdi bullet objekt (mesh + vector + time)
+	
+	
+	bullets.push(bullet);																			
+	scene.add(bulletMesh);
+
+}
+
+function animateBullets() {
+	
+	for (var i = 0; i < bullets.length; i++) {
+		
+		if (bullets[i].timer.getElapsedTime() > bulletTime) {
+			
+			scene.remove(bullets[i].mesh);
+			bullets.splice(i, 1);
+		
+		}
+		
+		else {
+			moveBullet(i);								//to bi mogu nrdit kot funkcijo objekta, right?
+		}
+	
+	}
+}
+
+function moveBullet(i) {
+	
+   // var time= performance.now();
+	var speed= 3.0;
+	var bulletVector= bullets[i].vector;			//smer letenja trenutnega metka
+
+
+    bullets[i].mesh.translateX( bulletVector.x * speed);	//TO NI KUL, KER JE ODVISNO OD FPSja, mnozi z nekim casovnim delta
+    bullets[i].mesh.translateZ( bulletVector.z * speed);
+
+
+   // prevTimeShoot = time;
+
+	
+}
+//END SHOOTING PART------------------------------------------------------------------------------------------------------------
+
+
+
+
 function animate() {
 
-    requestAnimationFrame( animate );
-
+   renderer.render( scene, camera );
 
     if ( controlsEnabled ) {
-        handleKeys();
-        //collisionDetetcion();
+        
+		handleKeys();
         move();
+		animateBullets();
     }
-
-    renderer.render( scene, camera );
-
+	
+	requestAnimationFrame( animate );
 }
 
 function init() {
 
+	clock= new THREE.Clock();
     camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 1000 );
 
     scene = new THREE.Scene();
@@ -155,6 +226,10 @@ function init() {
     scene.add( player );
 
     raycaster = new THREE.Raycaster( new THREE.Vector3(), new THREE.Vector3(0,-1,0), 0, 10 );
+	
+	document.addEventListener("mousedown", shoot);
+	
+	
 
     var onProgress = function ( xhr ) {
         if ( xhr.lengthComputable ) {
@@ -179,18 +254,6 @@ function init() {
 	//Load map
 	loadMap();
 
-	/*
-    var loader = new THREE.OBJLoader();
-    loader.load( './res/level.obj', function ( object ) {
-
-
-        object.traverse( function ( child ) {
-            objects.push(child);
-        } );
-
-        scene.add( object );
-    }, onProgress, onError );
-	*/
 
     renderer = new THREE.WebGLRenderer();
     renderer.setClearColor( 0xffffff );
