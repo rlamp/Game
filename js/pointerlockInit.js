@@ -19,6 +19,7 @@ if ( havePointerLock ) {
 
             blocker.style.display = 'none';
             document.getElementById('hud').style.display = '';
+            document.getElementById('aim').style.display = '';
 
         } else {
 
@@ -30,6 +31,7 @@ if ( havePointerLock ) {
             blocker.style.display = 'box';
 
             document.getElementById('hud').style.display = 'none';
+            document.getElementById('aim').style.display = 'none';
 
             if(gameover) {
                 document.getElementById('gameover').style.display = '';

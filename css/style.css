@@ -1,4 +1,8 @@
 body {
+	-moz-user-select: -moz-none;
+	-khtml-user-select: none;
+	-webkit-user-select: none;
+	
 	font-family: Monospace;
 	background-color: #000;
 	color: #fff;
@@ -67,4 +71,13 @@ body {
 	height: 100%;
 	background-color: red;
 	opacity: 0.3;
+}
+
+#aim {
+	position: absolute;
+    top: 50%;
+    left: 50%;
+
+	color: green;
+	font-size: 30px;
 }

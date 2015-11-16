@@ -24,6 +24,14 @@ var enemySpawnLocations = [
 	new THREE.Vector3(-21,2,0)
 ];
 
+var directions = [
+	new THREE.Vector3(0,0,-1),
+	new THREE.Vector3(-1,0,0),
+	new THREE.Vector3(1,0,0),
+	new THREE.Vector3(0,0,1)
+];
+
+
 var Enemy = function(pos) {
 	var squareMesh = new THREE.Mesh(enemyGeometry, enemyMaterial);
 	// squareMesh.scale.set(sc.x, sc.y, sc.z);
@@ -35,12 +43,6 @@ var Enemy = function(pos) {
 	this.mesh = squareMesh;
 }
 
-var directions = [
-	new THREE.Vector3(0,0,-1),
-	new THREE.Vector3(0,0,1),
-	new THREE.Vector3(-1,0,0),
-	new THREE.Vector3(1,0,0)
-];
 
 Enemy.prototype.checkPos = function(pos) {
 	var canMove = {0:true, 1:true, 2:true, 3:true};

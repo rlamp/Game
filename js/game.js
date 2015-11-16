@@ -47,6 +47,7 @@ function animate() {
         handleKeys();
         move();
         moveEnemies();
+        animateBullets();
         healthBoxHandle();
 
         document.getElementById('hud').style.display = 'block';
@@ -63,7 +64,7 @@ function animate() {
 }
 
 function init() {
-
+	
     camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.01, 1000 );
 
     scene = new THREE.Scene();
@@ -85,7 +86,8 @@ function init() {
 
     document.addEventListener( 'keydown', function(event) {pressedKeys[event.keyCode] = true;}, false );
     document.addEventListener( 'keyup', function(event) {pressedKeys[event.keyCode] = false;}, false );
-    
+	document.addEventListener("mousedown", shoot, false);
+
     // document.addEventListener('click', function() {console.log(player.position);}, false);
 
     //

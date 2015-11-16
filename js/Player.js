@@ -24,7 +24,7 @@ var rays = [
 function collisionDetetcion() {
     for(var i = 0; i < rays.length; i++) {
         var ray = rays[i].clone();
-        ray.applyMatrix4( player.matrixWorld).sub( player.position ).normalize();
+        ray.applyEuler(player.rotation).normalize();
         raycaster.set(player.position, ray);
 
         var intersections = raycaster.intersectObjects( objects, true);
