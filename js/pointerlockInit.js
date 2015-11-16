@@ -19,6 +19,7 @@ if ( havePointerLock ) {
 
             blocker.style.display = 'none';
             document.getElementById('hud').style.display = '';
+            document.getElementById('tillEnd').style.display = '';
             document.getElementById('aim').style.display = '';
 
         } else {
@@ -31,10 +32,13 @@ if ( havePointerLock ) {
             blocker.style.display = 'box';
 
             document.getElementById('hud').style.display = 'none';
+            document.getElementById('tillEnd').style.display = 'none';
             document.getElementById('aim').style.display = 'none';
 
             if(gameover) {
                 document.getElementById('gameover').style.display = '';
+                if(win) document.getElementById('win').style.display = '';
+                else document.getElementById('fail').style.display = '';
                 document.getElementById('reload').addEventListener('click', function() {window.location.reload(false);}, false)
             }
             else {
@@ -70,7 +74,6 @@ if ( havePointerLock ) {
         div.style.display = div.style.display == "none" ? "block" : "none";
     });
 
-
     document.getElementById("play").addEventListener( 'click', function ( event ) {
 
         menu.style.display = 'none';
@@ -105,7 +108,7 @@ if ( havePointerLock ) {
 
         }
 
-    }, false );
+    }, false);
 
 } else {
 

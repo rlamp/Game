@@ -10,12 +10,12 @@ var raycaster;
 var controlsEnabled = false;
 
 var gameover = false;
+var win = false;
 
 var pressedKeys = {};
 
 init();
 animate();
-
 
 function handleKeys()  {
     moveForward = pressedKeys[38] || pressedKeys[87];
@@ -58,6 +58,10 @@ function animate() {
         if(playerHealth <= 0) {
             gameOver();
         }
+        if(enemiesLeft <= 0) {
+        	win = true;
+        	gameOver();
+        }
     }
 
     renderer.render( scene, camera );
@@ -90,13 +94,17 @@ function init() {
 
     // document.addEventListener('click', function() {console.log(player.position);}, false);
 
+    document.getElementById("tillEnd").innerHTML = enemiesLeft;
+
     //
     window.setInterval(function() {
-    	if(controlsEnabled && enemies.length < 42) {
-    		var idx = Math.floor(Math.random()*(enemySpawnLocations.length));
-    		enemies.push(new Enemy(enemySpawnLocations[idx]));
-    	}
-    }, 1000);
+        if(controlsEnabled && enemies.length < 42) {
+            var idx = Math.floor(Math.random()*(enemySpawnLocations.length));
+            enemies.push(new Enemy(enemySpawnLocations[idx]));
+        }
+    }, 500);
+
+
     
     window.addEventListener( 'resize', onWindowResize, false );
 }
@@ -104,7 +112,7 @@ function init() {
 function gameOver() {
     gameover = true;
     document.exitPointerLock = document.exitPointerLock ||
-       document.mozExitPointerLock ||
-       document.webkitExitPointerLock;
+                               document.mozExitPointerLock ||
+                               document.webkitExitPointerLock;
     document.exitPointerLock();
 }

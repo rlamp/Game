@@ -80,7 +80,10 @@ function moveBullet(i) {
 
     	scene.remove(bullets[i].mesh);
 		bullets.splice(i, 1);
-  	
+  		
+  		enemiesLeft--;
+		document.getElementById("tillEnd").innerHTML = enemiesLeft;
+
   		return;
     }
 

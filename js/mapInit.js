@@ -5,15 +5,15 @@ function loadMap() {
     light.position.set( 0.5, 1, 0.75 );
     scene.add( light );
     
-    //gridline
-    var size = 100;
-    var step = 1;
-    var gridHelper = new THREE.GridHelper(size, step);
-    scene.add(gridHelper);
+    // //gridline
+    // var size = 100;
+    // var step = 1;
+    // var gridHelper = new THREE.GridHelper(size, step);
+    // scene.add(gridHelper);
     
-    //axis helper
-    var axisHelper= new THREE.AxisHelper(100);
-    scene.add(axisHelper);
+    // //axis helper
+    // var axisHelper= new THREE.AxisHelper(100);
+    // scene.add(axisHelper);
 
 	
 	var loader= new THREE.JSONLoader();

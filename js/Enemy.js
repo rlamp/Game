@@ -1,3 +1,5 @@
+var enemiesLeft = 100;
+
 var enemyGeometry = new THREE.Geometry(); 
 	enemyGeometry.vertices.push(new THREE.Vector3(-1.0,  1.0, 0.0)); 
 	enemyGeometry.vertices.push(new THREE.Vector3( 1.0,  1.0, 0.0)); 
@@ -93,7 +95,7 @@ Enemy.prototype.move = function() {
 			enemiesMeshes.splice(idx,1);
 			idx = enemies.indexOf(this);
 			enemies.splice(idx,1);
-
+			
 			scene.remove(this.mesh);
 
 			delete this;
