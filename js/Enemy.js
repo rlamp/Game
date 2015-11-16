@@ -61,7 +61,7 @@ Enemy.prototype.checkPos = function(pos) {
 	        	}
 	        }
 
-	        if(idx != -1 && intersections[idx].distance <= 0.5){
+	        if(idx != -1 && intersections[idx].distance <= 0.9){
 	        	canMove[i] = false;
         	}
 		}
@@ -71,22 +71,32 @@ Enemy.prototype.checkPos = function(pos) {
 }
 
 Enemy.prototype.move = function() {
-	var d = this.mesh.position.distanceToSquared(player.position);
+	var d = this.mesh.position.distanceTo(player.position);
 	if(d >= 1500) return;
-	if(d < 2.5) {
-		document.getElementById('hurt').style.display = '';
-		window.setTimeout(function() {document.getElementById('hurt').style.display = 'none';}, 50);
+	if(d < 1.5) {
 
-		playerHealth -= 10;
-		var idx = enemiesMeshes.indexOf(this.mesh);
-		enemiesMeshes.splice(idx,1);
-		idx = enemies.indexOf(this);
-		enemies.splice(idx,1);
 
-		scene.remove(this.mesh);
+		var ray = player.position.clone().sub(this.mesh.position).normalize();
+        raycaster.set(this.mesh.position, ray);
 
-		delete this;
-		return;
+        var intersections = raycaster.intersectObjects( objects, true);
+        var hit = intersections.length > 0 && intersections[0].distance <= 1.5;
+
+        if(!hit) {
+			document.getElementById('hurt').style.display = '';
+			window.setTimeout(function() {document.getElementById('hurt').style.display = 'none';}, 50);
+
+			playerHealth -= 10;
+			var idx = enemiesMeshes.indexOf(this.mesh);
+			enemiesMeshes.splice(idx,1);
+			idx = enemies.indexOf(this);
+			enemies.splice(idx,1);
+
+			scene.remove(this.mesh);
+
+			delete this;
+			return;
+        }
 	}
 
 	var canMove = this.checkPos(this.mesh.position);
