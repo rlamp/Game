@@ -339,7 +339,4 @@ function loadMap() {
 	loader.load("./res/textures/ad.jpg", function(texture) {
 		enemyMaterial = new THREE.MeshBasicMaterial( { map: texture, side:THREE.DoubleSide } );
 	});
-
-	// first healthbox
-	newHealthBox();
 }

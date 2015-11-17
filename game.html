@@ -8,41 +8,51 @@
 	</head>
 	<body>
 		<div id="blocker">
-			<div id="menu">
-				<div id="play">
-					<span style="font-size:40px">PLAY</span>
-				</div>
-				<br><br>
-				<div id="instructions">
-					<span style="font-size:40px">INSTRUCTIONS</span>
-				</div>
-				<br>
-				<div id="instructionsText" style="display:none">
+			<table id="menu">
+				<tr>
+					<td id="play" style="font-size:40px">PLAY</td>
+				</tr>
+
+				<tr id="instructions">
+					<td style="font-size:40px">INSTRUCTIONS</td>
+				</tr>
+
+				<tr id="instructionsText" style="display:none">
+					<td>
 					Make the world a favor and kill 100 bAdvertisers!<br>
 					When in trouble find a friendly healthbox to boost you up.<br>
 					[W, A, S, D] = Move, [MOUSE] = Look around, [LEFT-CLICK] Shoot
-				</div>
-				<br><br>
-				<div id="about">
-					<span style="font-size:40px">ABOUT</span>
-				</div>
-				<br>
-				<div id="aboutText" style="display:none">
+					</td>
+				</tr>
+
+				<tr id="about">
+					<td style="font-size:40px">ABOUT</td>
+				</tr>
+
+				<tr align="center" id="aboutText" style="display:none">
+					<td>
 					CYBEARTH - 2084<br>
 					Jure Vidmar, Rok Lampret<br>
 					@FRI, 2015
-				</div>
-			</div>
-			<div id="gameover" style="display:none">
-				<p id="fail" style="display:none">GAME OVER</p>
-				<br>
-				<p id="win" style="display:none; color:gold">YOU WIN!<p>
-				<br>
-				<div id="reload">RESTART</div>
-			</div>
+					</td>
+				</tr>
+
+			</table>
+			<table id="gameover" style="display:none">
+				<tr>
+					<td>
+						<p id="fail" style="display:none">GAME OVER</p>
+						<p id="win" style="display:none; color:gold">YOU WIN!<p>
+					</td>	
+				</tr>
+
+				<tr>
+					<td id="reload">RESTART</td>
+				</tr>
+			</table>
 		</div>
 		<div id="hud"></div>
-		<div id="tillEnd"></div>
+		<div id="tillEnd" style="display:none"></div>
 		<div id="hurt" style="display:none;"></div>
 		<div id="aim" style="display:none">+</div>
 		</div>

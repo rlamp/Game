@@ -82,6 +82,8 @@ function init() {
 
     loadMap();
 
+    createHealthBox();
+
     renderer = new THREE.WebGLRenderer();
     renderer.setClearColor( 0xffffff );
     renderer.setPixelRatio( window.devicePixelRatio );
