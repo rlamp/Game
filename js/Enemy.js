@@ -1,14 +1,21 @@
 var enemiesLeft = 100;
 
-var enemyGeometry = new THREE.Geometry(); 
-	enemyGeometry.vertices.push(new THREE.Vector3(-1.0,  1.0, 0.0)); 
-	enemyGeometry.vertices.push(new THREE.Vector3( 1.0,  1.0, 0.0)); 
-	enemyGeometry.vertices.push(new THREE.Vector3( 1.0, -1.0, 0.0)); 
-	enemyGeometry.vertices.push(new THREE.Vector3(-1.0, -1.0, 0.0)); 
-	enemyGeometry.faces.push(new THREE.Face3(0, 1, 2)); 
-	enemyGeometry.faces.push(new THREE.Face3(0, 2, 3));
-
+var enemyGeometry= new THREE.PlaneGeometry(2, 2);;
 var enemyMaterial;
+var enemyTexture;
+
+function randomTexture() {
+
+	var st_texture= Math.floor((Math.random() * 9) + 0);	//random int med 1 in 9
+		
+	var path= "./res/textures/ad_";
+	var name= st_texture.toString();
+	var type= ".png";
+	
+	var texture= path.concat(name, type);
+	
+	return texture;
+}
 
 var enemyVerticesCD = [];
 	enemyVerticesCD.push(enemyGeometry.vertices[1]);
@@ -18,8 +25,8 @@ var enemyVerticesCD = [];
 	enemyVerticesCD.push(new THREE.Vector3(0,0,0));
 
 var enemySpawnLocations = [
-	new THREE.Vector3(0,2,0),
-	new THREE.Vector3(0,2,28),
+	//new THREE.Vector3(0,2,0),
+	//new THREE.Vector3(0,2,28),
 	new THREE.Vector3(0,2,-45),
 	new THREE.Vector3(0,2,-65),
 	new THREE.Vector3(55,2,0),
@@ -35,8 +42,11 @@ var directions = [
 
 
 var Enemy = function(pos) {
+	
+	enemyTexture= new THREE.ImageUtils.loadTexture(randomTexture());		
+	enemyMaterial= new THREE.MeshBasicMaterial({map: enemyTexture, side: THREE.DoubleSide});
+	
 	var squareMesh = new THREE.Mesh(enemyGeometry, enemyMaterial);
-	// squareMesh.scale.set(sc.x, sc.y, sc.z);
 	squareMesh.position.set(pos.x, 2, pos.z); 
 
 	scene.add(squareMesh);

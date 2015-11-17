@@ -12,7 +12,10 @@ THREE.PointerLockControls = function ( camera ) {
 	pitchObject.add( camera );
 
 	var yawObject = new THREE.Object3D();
+	yawObject.position.x = 0;					//startna pozicija
 	yawObject.position.y = 2;
+	yawObject.position.z = 28;
+	
 	yawObject.add( pitchObject );
 
 	var PI_2 = Math.PI / 2;
