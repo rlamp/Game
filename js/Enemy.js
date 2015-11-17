@@ -1,12 +1,12 @@
 var enemiesLeft = 100;
 
-var enemyGeometry= new THREE.PlaneGeometry(2, 2);;
+var enemyGeometry = new THREE.PlaneGeometry(1.5, 1.5);;
 var enemyMaterial;
 var enemyTexture;
 
 function randomTexture() {
 
-	var st_texture= Math.floor((Math.random() * 9) + 0);	//random int med 1 in 9
+	var st_texture= Math.floor(Math.random() * 12);	//random int med 1 in 9
 		
 	var path= "./res/textures/ad_";
 	var name= st_texture.toString();
@@ -19,9 +19,9 @@ function randomTexture() {
 
 var enemyVerticesCD = [];
 	enemyVerticesCD.push(enemyGeometry.vertices[1]);
-	enemyVerticesCD.push(enemyGeometry.vertices[3]);
-	enemyVerticesCD.push(new THREE.Vector3(0,-1,-1));
-	enemyVerticesCD.push(new THREE.Vector3(0,1,1));
+	enemyVerticesCD.push(enemyGeometry.vertices[2]);
+	enemyVerticesCD.push(new THREE.Vector3(0,enemyGeometry.vertices[1].x,enemyGeometry.vertices[1].y));
+	enemyVerticesCD.push(new THREE.Vector3(0,enemyGeometry.vertices[2].x,enemyGeometry.vertices[2].y));
 	enemyVerticesCD.push(new THREE.Vector3(0,0,0));
 
 var enemySpawnLocations = [

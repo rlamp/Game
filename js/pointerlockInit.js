@@ -21,6 +21,8 @@ if ( havePointerLock ) {
             document.getElementById('hud').style.display = '';
             document.getElementById('tillEnd').style.display = '';
             document.getElementById('aim').style.display = '';
+            document.getElementById("music").play();
+
 
         } else {
 
@@ -34,6 +36,8 @@ if ( havePointerLock ) {
             document.getElementById('hud').style.display = 'none';
             document.getElementById('tillEnd').style.display = 'none';
             document.getElementById('aim').style.display = 'none';
+            document.getElementById("music").pause();
+
 
             if(gameover) {
                 document.getElementById('gameover').style.display = '';
@@ -94,6 +98,8 @@ if ( havePointerLock ) {
                 }
 
             };
+
+            document.getElementById("music").play();
 
             document.addEventListener( 'fullscreenchange', fullscreenchange, false );
             document.addEventListener( 'mozfullscreenchange', fullscreenchange, false );
